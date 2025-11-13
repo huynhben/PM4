@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Grilled Chicken Breast",
+    "serving_size": "100g",
+    "calories": 165,
+    "macronutrients": {"protein": 31, "fat": 3.6, "carbs": 0},
+    "aliases": ["grilled chicken", "chicken breast"]
+  },
+  {
+    "name": "Quinoa Salad",
+    "serving_size": "1 cup",
+    "calories": 222,
+    "macronutrients": {"carbs": 39, "protein": 8, "fat": 3.5},
+    "aliases": ["quinoa bowl"]
+  },
+  {
+    "name": "Greek Yogurt",
+    "serving_size": "170g",
+    "calories": 100,
+    "macronutrients": {"protein": 17, "carbs": 6, "fat": 0},
+    "aliases": ["greek yoghurt", "plain yogurt"]
+  },
+  {
+    "name": "Avocado Toast",
+    "serving_size": "1 slice",
+    "calories": 250,
+    "macronutrients": {"fat": 14, "carbs": 24, "protein": 6},
+    "aliases": ["smashed avo", "avocado on toast"]
+  },
+  {
+    "name": "Blueberry Smoothie",
+    "serving_size": "350ml",
+    "calories": 180,
+    "macronutrients": {"carbs": 42, "protein": 5, "fat": 2},
+    "aliases": ["blueberry shake"]
+  },
+  {
+    "name": "Caesar Salad",
+    "serving_size": "2 cups",
+    "calories": 190,
+    "macronutrients": {"carbs": 8, "protein": 7, "fat": 14},
+    "aliases": ["classic caesar"]
+  },
+  {
+    "name": "Margherita Pizza",
+    "serving_size": "1 slice",
+    "calories": 285,
+    "macronutrients": {"carbs": 33, "protein": 12, "fat": 10},
+    "aliases": ["cheese pizza"]
+  },
+  {
+    "name": "Veggie Omelette",
+    "serving_size": "1 omelette",
+    "calories": 200,
+    "macronutrients": {"protein": 14, "fat": 14, "carbs": 6},
+    "aliases": ["vegetable omelet"]
+  },
+  {
+    "name": "Overnight Oats",
+    "serving_size": "1 jar",
+    "calories": 250,
+    "macronutrients": {"carbs": 40, "protein": 10, "fat": 7},
+    "aliases": ["soaked oats"]
+  },
+  {
+    "name": "Protein Shake",
+    "serving_size": "1 scoop",
+    "calories": 120,
+    "macronutrients": {"protein": 24, "carbs": 3, "fat": 1.5},
+    "aliases": ["whey shake"]
+  },
+  {
+    "name": "Sushi Roll",
+    "serving_size": "1 roll",
+    "calories": 200,
+    "macronutrients": {"carbs": 38, "protein": 9, "fat": 3},
+    "aliases": ["california roll", "maki roll"]
+  },
+  {
+    "name": "Grilled Salmon",
+    "serving_size": "120g",
+    "calories": 233,
+    "macronutrients": {"protein": 25, "fat": 14, "carbs": 0},
+    "aliases": ["salmon fillet"]
+  },
+  {
+    "name": "Brown Rice",
+    "serving_size": "1 cup",
+    "calories": 216,
+    "macronutrients": {"carbs": 45, "protein": 5, "fat": 1.8},
+    "aliases": ["cooked brown rice"]
+  },
+  {
+    "name": "Roasted Vegetables",
+    "serving_size": "1 cup",
+    "calories": 110,
+    "macronutrients": {"carbs": 18, "protein": 3, "fat": 4},
+    "aliases": ["roasted veggies"]
+  },
+  {
+    "name": "Beef Burrito",
+    "serving_size": "1 burrito",
+    "calories": 430,
+    "macronutrients": {"carbs": 45, "protein": 20, "fat": 18},
+    "aliases": ["beef wrap"]
+  }
+]

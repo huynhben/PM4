@@ -1,100 +1,93 @@
-# PM4 – AI Assisted Food Tracker
+PM4 – AI Assisted Food Tracker
+This project contains a lightweight food tracking application that blends the standard features of calorie trackers with an AI-inspired recognition engine. The codebase now offers both a command-line experience and a fullstack web application. The FastAPI backend exposes the tracker over HTTP, while the bundled frontend delivers a responsive interface for scanning foods, logging meals, and reviewing summaries.
 
-This project contains a lightweight food tracking application that blends the
-standard features of calorie trackers with an AI-inspired recognition engine.
-The codebase now offers both a command-line experience and a fullstack web
-application. The FastAPI backend exposes the tracker over HTTP, while the
-bundled frontend delivers a responsive interface for scanning foods, logging
-meals, and reviewing summaries.
+Features
+AI-assisted food scanning – type or paste a description to get the top matches along with confidence scores in the browser or via the CLI.
 
-## Features
+Manual logging – quickly add foods that are not part of the reference database while still storing macros and calories.
 
-- **AI-assisted food scanning** – type or paste a description to get the top
-  matches along with confidence scores in the browser or via the CLI.
-- **Manual logging** – quickly add foods that are not part of the reference
-  database while still storing macros and calories.
-- **Daily summaries** – review the foods eaten each day alongside total
-  calories and macronutrients.
-- **Fullstack delivery** – FastAPI powers a JSON API and serves a polished
-  single-page interface without extra build steps.
-- **Extensible design** – the recognition engine is intentionally simple so it
-  can run offline, but its API can be swapped for a heavier ML model when
-  needed.
+Daily summaries – review the foods eaten each day alongside total calories and macronutrients.
 
-## Getting Started
+Fullstack delivery – FastAPI powers a JSON API and serves a polished single-page interface without extra build steps.
 
-1. Ensure you have Python 3.10+ installed.
-2. Install dependencies:
+Extensible design – the recognition engine is intentionally simple so it can run offline, but its API can be swapped for a heavier ML model when needed.
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Getting Started
+Ensure you have Python 3.9+ installed.
 
-3. Start the web application:
+Create and activate a virtual environment:
 
-   ```bash
-   uvicorn food_tracker.api:app --reload
-   ```
+Bash
 
-   Visit <http://localhost:8000> to use the AI-assisted food tracker in your
-   browser. The API is exposed under the `/api` prefix if you want to integrate
-   with other clients.
+# Create the environment
 
-4. (Optional) Run the CLI instead of, or alongside, the web app:
+python3 -m venv venv
 
-   ```bash
-   python ai.py --help
-   ```
+# Activate it (on macOS/Linux)
 
-   Example sessions:
+source venv/bin/activate
+Install dependencies:
 
-   ```bash
-   # Ask the AI to recognise a food item
-   python ai.py scan "grilled chicken salad"
+Bash
 
-   # Log the best match returned by the AI
-   python ai.py log "grilled chicken salad" --quantity 1.5
+# Make sure your (venv) is active first
 
-   # Manually log a custom food
-   python ai.py add "Homemade Protein Bar" "1 bar" 210 --protein 15 --carbs 18 --fat 8
+pip install -r requirements.txt
+Start the web application:
 
-   # Show today's summary
-   python ai.py summary
-   ```
+Bash
 
-Data is stored as JSON under `~/.food_tracker/log.json` so you can safely delete
-that file to reset your log. The web UI, API, and CLI all share the same
-persistent log.
+uvicorn food_tracker.api:app --reload
+Visit http://localhost:8000 to use the AI-assisted food tracker in your browser. The API is exposed under the /api prefix if you want to integrate with other clients.
 
-## Extending the AI Component
+(Optional) Run the CLI instead of, or alongside, the web app:
 
-The `FoodRecognitionEngine` in `food_tracker/ai.py` uses a simple bag-of-words
-embedding so the project remains dependency free. To integrate a more
-sophisticated model:
+Bash
 
-1. Replace the implementation of `EmbeddingModel.encode` with calls to your
-   preferred ML library.
-2. Expand `food_tracker/data/foods.json` or connect the tracker to a nutrition
-   API.
-3. Update the CLI or build a GUI/mobile frontend using the `FoodTracker` class
-   from `food_tracker/tracker.py`.
+# Make sure your (venv) is active
 
-## Project Layout
+python ai.py --help
+Example sessions:
 
-```
+Bash
+
+# Ask the AI to recognise a food item
+
+python ai.py scan "grilled chicken salad"
+
+# Log the best match returned by the AI
+
+python ai.py log "grilled chicken salad" --quantity 1.5
+
+# Manually log a custom food
+
+python ai.py add "Homemade Protein Bar" "1 bar" 210 --protein 15 --carbs 18 --fat 8
+
+# Show today's summary
+
+python ai.py summary
+Data is stored as JSON under ~/.food_tracker/log.json so you can safely delete that file to reset your log. The web UI, API, and CLI all share the same persistent log.
+
+Extending the AI Component
+The FoodRecognitionEngine in food_tracker/ai.py uses a simple bag-of-words embedding so the project remains dependency free. To integrate a more sophisticated model:
+
+Replace the implementation of EmbeddingModel.encode with calls to your preferred ML library.
+
+Expand food_tracker/data/foods.json or connect the tracker to a nutrition API.
+
+Update the CLI or build a GUI/mobile frontend using the FoodTracker class from food_tracker/tracker.py.
+
+Project Layout
 food_tracker/
-├── ai.py              # AI recognition helpers
-├── api.py             # FastAPI application & static file server
-├── cli.py             # Command line interface
-├── data/foods.json    # Reference nutrition dataset
-├── models.py          # Data classes and helpers
-├── storage.py         # Persistence utilities
-└── tracker.py         # High-level orchestration
+├── ai.py # AI recognition helpers
+├── api.py # FastAPI application & static file server
+├── cli.py # Command line interface
+├── data/foods.json # Reference nutrition dataset
+├── models.py # Data classes and helpers
+├── storage.py # Persistence utilities
+└── tracker.py # High-level orchestration
 frontend/
-├── app.js             # Browser client logic
-├── index.html         # Single-page shell served by FastAPI
-└── styles.css         # UI styling
-```
-
-Use `FoodTracker` as the main entry point if you intend to embed the tracking
-logic into another application layer.
+├── app.js # Browser client logic
+├── index.html # Single-page shell served by FastAPI
+└── styles.css # UI styling
+Use FoodTracker as the main entry point if you intend to embed the tracking logic into another application layer.

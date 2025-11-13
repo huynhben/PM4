@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Food Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>AI-Assisted Food Tracker</h1>
+      <p>Scan foods with AI, log meals, and monitor your daily nutrition in one place.</p>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>Scan a food</h2>
+        <form id="scan-form" class="form-grid">
+          <label for="scan-query">Describe what you're eating</label>
+          <input id="scan-query" name="scan-query" type="text" placeholder="e.g. grilled chicken salad" required />
+          <button type="submit">Scan</button>
+        </form>
+        <div id="scan-results" class="scan-results" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <h2>Log a custom item</h2>
+        <form id="manual-form" class="form-grid">
+          <label for="manual-name">Food name</label>
+          <input id="manual-name" name="manual-name" type="text" placeholder="Homemade protein bar" required />
+
+          <label for="manual-serving">Serving size</label>
+          <input id="manual-serving" name="manual-serving" type="text" placeholder="1 bar" required />
+
+          <label for="manual-calories">Calories per serving</label>
+          <input id="manual-calories" name="manual-calories" type="number" min="0" step="1" required />
+
+          <label for="manual-quantity">Quantity consumed</label>
+          <input id="manual-quantity" name="manual-quantity" type="number" min="0" step="0.1" value="1" />
+
+          <fieldset class="macros">
+            <legend>Optional macronutrients per serving</legend>
+            <label for="manual-protein">Protein (g)</label>
+            <input id="manual-protein" name="manual-protein" type="number" min="0" step="0.1" />
+
+            <label for="manual-carbs">Carbs (g)</label>
+            <input id="manual-carbs" name="manual-carbs" type="number" min="0" step="0.1" />
+
+            <label for="manual-fat">Fat (g)</label>
+            <input id="manual-fat" name="manual-fat" type="number" min="0" step="0.1" />
+          </fieldset>
+
+          <label class="checkbox">
+            <input id="manual-save" type="checkbox" />
+            Save this item to my AI library for future scans
+          </label>
+
+          <button type="submit">Log food</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Today's log</h2>
+        <div id="log-entries" class="log-entries" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <h2>Daily summaries</h2>
+        <div id="summary" class="summary" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <template id="scan-item-template">
+      <div class="scan-item">
+        <div class="scan-details">
+          <h3 class="scan-title"></h3>
+          <p class="scan-serving"></p>
+          <p class="scan-calories"></p>
+          <p class="scan-confidence"></p>
+        </div>
+        <div class="scan-actions">
+          <label>
+            Qty
+            <input type="number" class="scan-quantity" value="1" min="0.1" step="0.1" />
+          </label>
+          <button type="button" class="log-button">Log</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

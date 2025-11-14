@@ -26,6 +26,7 @@ python3 -m venv venv
 # Activate it (on macOS/Linux)
 
 source venv/bin/activate
+
 Install dependencies:
 
 Bash
@@ -33,11 +34,13 @@ Bash
 # Make sure your (venv) is active first
 
 pip install -r requirements.txt
+
 Start the web application:
 
 Bash
 
 uvicorn food_tracker.api:app --reload
+
 Visit http://localhost:8000 to use the AI-assisted food tracker in your browser. The API is exposed under the /api prefix if you want to integrate with other clients.
 
 (Optional) Run the CLI instead of, or alongside, the web app:

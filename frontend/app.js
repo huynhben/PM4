@@ -75,74 +75,104 @@ function renderScanResults(results) {
   });
 }
 
-function renderEntries(entries) {
+// ...existing code...
+
+async function renderEntries(entries) {
   const container = document.getElementById('log-entries');
   container.innerHTML = '';
 
   if (!entries.items.length) {
     renderEmptyState(container, 'No foods logged yet. Scan or add one to get started.');
+    await renderSummary(); // Update the summary to show 0 if no entries exist
     return;
   }
 
-  entries.items.forEach((entry) => {
-    const card = document.createElement('article');
-    card.className = 'log-entry';
+  const template = document.getElementById('log-entry-template');
 
-    const title = document.createElement('h3');
-    title.textContent = entry.food.name;
-
-    const calories = document.createElement('p');
-    calories.innerHTML = `<span class="badge">${entry.calories.toFixed(0)} kcal</span> — Qty ${entry.quantity}`;
-
-    const serving = document.createElement('p');
-    serving.textContent = `Serving: ${entry.food.serving_size}`;
-
-    const macros = document.createElement('p');
-    macros.textContent = formatMacros(entry.macronutrients);
-
-    const timestamp = document.createElement('p');
+  entries.items.forEach((entry, index) => {
+    const fragment = template.content.cloneNode(true);
+    fragment.querySelector('.log-title').textContent = entry.food.name;
+    fragment.querySelector('.log-calories').innerHTML = `<span class="badge">${entry.calories.toFixed(0)} kcal</span> — Qty ${entry.quantity}`;
+    fragment.querySelector('.log-serving').textContent = `Serving: ${entry.food.serving_size}`;
+    fragment.querySelector('.log-macros').textContent = formatMacros(entry.macronutrients);
     const date = new Date(entry.timestamp);
-    timestamp.textContent = `Logged at ${date.toLocaleString()}`;
+    fragment.querySelector('.log-timestamp').textContent = `Logged at ${date.toLocaleString()}`;
 
-    card.append(title, calories, serving, macros, timestamp);
-    container.appendChild(card);
+    const editButton = fragment.querySelector('.edit-button');
+    const deleteButton = fragment.querySelector('.delete-button');
+
+    editButton.addEventListener('click', async () => {
+      const newQuantity = prompt(`Edit quantity for ${entry.food.name}:`, entry.quantity);
+      if (newQuantity && !isNaN(newQuantity)) {
+        try {
+          await request(`/entries/${index}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ quantity: parseFloat(newQuantity) }),
+          });
+          await loadEntries(); // Reload entries and update the summary
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+    });
+
+    deleteButton.addEventListener('click', async () => {
+      if (confirm(`Are you sure you want to delete ${entry.food.name}?`)) {
+        try {
+          await request(`/entries/${index}`, { method: 'DELETE' });
+          await loadEntries(); // Reload entries and update the summary
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+    });
+
+    container.appendChild(fragment);
   });
 }
 
-function renderSummary(summary) {
-  const container = document.getElementById('summary');
-  container.innerHTML = '';
+async function renderSummary() {
+  const summaryContainer = document.getElementById('summary');
+  summaryContainer.innerHTML = ''; // Clear the summary container
 
-  if (!summary.days.length) {
-    renderEmptyState(container, 'Once you have entries we will show daily totals here.');
-    return;
+  try {
+    const response = await request('/summary');
+    const summaries = response.days;
+
+    if (!summaries.length) {
+      summaryContainer.textContent = 'No data available for today.';
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    const todaySummary = summaries.find((log) => log.day === today);
+
+    if (!todaySummary || !todaySummary.entries.length) {
+      summaryContainer.textContent = 'No entries logged for today.';
+      return;
+    }
+
+    const totalCalories = todaySummary.total_calories.toFixed(0);
+    const macros = formatMacros(todaySummary.total_macronutrients);
+
+    summaryContainer.innerHTML = `
+      <p>Total Calories: <strong>${totalCalories} kcal</strong></p>
+      <p>Macronutrients: <strong>${macros}</strong></p>
+    `;
+  } catch (error) {
+    summaryContainer.textContent = 'Failed to load daily summary.';
+    console.error(error);
   }
-
-  summary.days.forEach((day) => {
-    const card = document.createElement('article');
-    card.className = 'summary-day';
-
-    const title = document.createElement('h3');
-    const date = new Date(day.day);
-    title.textContent = date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-
-    const calories = document.createElement('p');
-    calories.innerHTML = `<span class="badge">${day.total_calories.toFixed(0)} kcal</span>`;
-
-    const macros = document.createElement('p');
-    macros.textContent = formatMacros(day.total_macronutrients);
-
-    card.append(title, calories, macros);
-    container.appendChild(card);
-  });
 }
+
 
 async function loadEntries() {
   try {
-    const entries = await request('/entries');
-    renderEntries(entries);
+    const response = await request('/entries');
+    await renderEntries(response);
+    await renderSummary(); // Ensure the summary is updated
   } catch (error) {
-    console.error(error);
+    console.error('Failed to load entries:', error);
   }
 }
 

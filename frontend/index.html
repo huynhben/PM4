@@ -68,8 +68,21 @@
         <h2>Daily summaries</h2>
         <div id="summary" class="summary" aria-live="polite"></div>
       </section>
+      <template id="log-entry-template">
+        <article class="log-entry">
+          <h3 class="log-title"></h3>
+          <p class="log-calories"></p>
+          <p class="log-serving"></p>
+          <p class="log-macros"></p>
+          <p class="log-timestamp"></p>
+          <div class="log-actions">
+            <button class="edit-button">Edit</button>
+            <button class="delete-button">Delete</button>
+          </div>
+        </article>
+      </template>
     </main>
-
+      
     <template id="scan-item-template">
       <div class="scan-item">
         <div class="scan-details">

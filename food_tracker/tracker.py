@@ -93,3 +93,19 @@ class FoodTracker:
             for nutrient, amount in entry.macronutrients.items():
                 totals[nutrient] = totals.get(nutrient, 0.0) + amount
         return totals
+    def remove_entry(self, entry_id: int) -> None:
+        """Remove an entry by its index."""
+        if 0 <= entry_id < len(self._entries):
+            del self._entries[entry_id]
+            self.repository.save_entries(self._entries)
+        else:
+            raise IndexError(f"Entry ID {entry_id} is out of range.")
+
+    def edit_entry(self, entry_id: int, quantity: float) -> FoodEntry:
+        """Edit the quantity of an existing entry."""
+        if 0 <= entry_id < len(self._entries):
+            self._entries[entry_id].quantity = quantity
+            self.repository.save_entries(self._entries)
+            return self._entries[entry_id]
+        else:
+            raise IndexError(f"Entry ID {entry_id} is out of range.")
